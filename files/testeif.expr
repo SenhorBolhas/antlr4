@@ -4,7 +4,7 @@ int y;
 x = 3
 y = 4
 
-if(x > 2) {
+if(x != 3) {
     println(44)
 } else {
     println(22)

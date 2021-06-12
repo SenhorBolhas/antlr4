@@ -6,7 +6,7 @@ WHILE: 'while';
 FOR: 'for';
 PRINT: 'println';
 PRINTSTR: 'printlnstr';
-OPREL: ('<'|'>'|'=='|'<>');
+OPREL: ('<'|'>'|'=='|'!=');
 MUL: '*';
 DIV: '/';
 ADD: '+';
