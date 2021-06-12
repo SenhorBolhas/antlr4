@@ -479,6 +479,8 @@ public class EvalVisitor extends LabeledExprBaseVisitor<Object> {
             element1 = Integer.valueOf(ctx.op1.getText());
         }else if(ctx.op1.getType() == LabeledExprParser.FLOAT){
             element1 = Double.valueOf(ctx.op1.getText());
+        }else if(ctx.op1.getType() == LabeledExprParser.STRING){
+            element1 = ctx.op1.getText().replace("\"","");
         }else{
             element1 = memory.get(ctx.op1.getText());
         }
@@ -487,40 +489,132 @@ public class EvalVisitor extends LabeledExprBaseVisitor<Object> {
             element2 = Integer.valueOf(ctx.op2.getText());
         }else if(ctx.op2.getType() == LabeledExprParser.FLOAT){
             element2 = Double.valueOf(ctx.op2.getText());
+        }else if(ctx.op2.getType() == LabeledExprParser.STRING){
+            element2 = ctx.op2.getText().replace("\"","");
         }else{
             element2 = memory.get(ctx.op2.getText());
         }
 
         String comparador = ctx.OPREL().getText();
 
-        if (comparador.equals("<")){
-            if(element1 instanceof Integer){
-                if(element2 instanceof Integer){
-                    return (Integer) element1 < (Integer)  element2 ? 1 : 0;
+        try{
+            if (comparador.equals("<")){
+                if(element1 instanceof Integer){
+                    if(element2 instanceof Integer){
+                        return (Integer) element1 < (Integer)  element2 ? 1 : 0;
+                    }else if(element2 instanceof Double){
+                        return (Integer) element1 < (Double)  element2 ? 1 : 0;
+                    }
+                    throw new Exception("Não é possivel comparar inteiro com string!");
+                }else if(element1 instanceof Double){
+                    if(element2 instanceof Integer){
+                        return (Double) element1 < (Integer) element2 ? 1 : 0;
+                    }else if(element2 instanceof Double){
+                        return (Double) element1 < (Double) element2 ? 1 : 0;
+                    }
+                    throw new Exception("Não é possivel comparar Double com string!");
+                }else{
+                    throw new Exception("Operador de < não pode ser utilizado entre strings!");
                 }
-                return (Integer) element1 < (Double)  element2 ? 1 : 0;
-            }
-        }else if(comparador.equals(">")){
-            if(element1 instanceof Integer){
-                if(element2 instanceof Integer){
-                    return (Integer) element1 > (Integer)  element2 ? 1 : 0;
+            }else if(comparador.equals(">")){
+                if(element1 instanceof Integer){
+                    if(element2 instanceof Integer){
+                        return (Integer) element1 > (Integer)  element2 ? 1 : 0;
+                    }else if(element2 instanceof Double){
+                        return (Integer) element1 > (Double)  element2 ? 1 : 0;
+                    }
+                    throw new Exception("Não é possivel comparar inteiro com string!");
+                }else if(element1 instanceof Double){
+                    if(element2 instanceof Integer){
+                        return (Double) element1 > (Integer) element2 ? 1 : 0;
+                    }else if(element2 instanceof Double){
+                        return (Double) element1 > (Double) element2 ? 1 : 0;
+                    }
+                    throw new Exception("Não é possivel comparar Double com string!");
+                }else{
+                    throw new Exception("Operador de > não pode ser utilizado entre strings!");
                 }
-                return (Integer) element1 > (Double)  element2 ? 1 : 0;
-            }
-        }else if(comparador.equals("==")){
-            if(element1 instanceof Integer){
-                if(element2 instanceof Integer){
-                    return ((Integer) element1).equals((Integer) element2) ? 1 : 0;
+            }else if(comparador.equals("==")){
+                if(element1 instanceof Integer){
+                    if(element2 instanceof Integer){
+                        return ((Integer) element1).equals((Integer)  element2) ? 1 : 0;
+                    }else if(element2 instanceof Double){
+                        return 0;
+                    }
+                    throw new Exception("Não é possivel comparar inteiro com string!");
+                }else if(element1 instanceof Double){
+                    if(element2 instanceof Integer){
+                        return 0;
+                    }else if(element2 instanceof Double){
+                        return ((Double) element1).equals((Double)  element2) ? 1 : 0;
+                    }
+                    throw new Exception("Não é possivel comparar Double com string!");
+                }else{
+                    if(!(element2 instanceof String)){
+                        throw new Exception("Operador de == não pode ser utilizado entre string e diferentes tipos!");
+                    }
+                    return ((String) element1).equals((String)  element2) ? 1 : 0;
                 }
-                return 0;
-            }
-        }else{
-            if(element1 instanceof Integer){
-                if(element2 instanceof Integer){
-                    return !((Integer) element1).equals((Integer) element2) ? 1 : 0;
+            }else if(comparador.equals(">=")){
+                if(element1 instanceof Integer){
+                    if(element2 instanceof Integer){
+                        return (Integer) element1 >= (Integer)  element2 ? 1 : 0;
+                    }else if(element2 instanceof Double){
+                        return (Integer) element1 >= (Double)  element2 ? 1 : 0;
+                    }
+                    throw new Exception("Não é possivel comparar inteiro com string!");
+                }else if(element1 instanceof Double){
+                    if(element2 instanceof Integer){
+                        return (Double) element1 >= (Integer) element2 ? 1 : 0;
+                    }else if(element2 instanceof Double){
+                        return (Double) element1 >= (Double) element2 ? 1 : 0;
+                    }
+                    throw new Exception("Não é possivel comparar Double com string!");
+                }else{
+                    throw new Exception("Operador de >= não pode ser utilizado entre strings!");
                 }
-                return 1;
+            }else if(comparador.equals("<=")){
+                if(element1 instanceof Integer){
+                    if(element2 instanceof Integer){
+                        return (Integer) element1 <= (Integer)  element2 ? 1 : 0;
+                    }else if(element2 instanceof Double){
+                        return (Integer) element1 <= (Double)  element2 ? 1 : 0;
+                    }
+                    throw new Exception("Não é possivel comparar inteiro com string!");
+                }else if(element1 instanceof Double){
+                    if(element2 instanceof Integer){
+                        return (Double) element1 <= (Integer) element2 ? 1 : 0;
+                    }else if(element2 instanceof Double){
+                        return (Double) element1 <= (Double) element2 ? 1 : 0;
+                    }
+                    throw new Exception("Não é possivel comparar Double com string!");
+                }else{
+                    throw new Exception("Operador de <= não pode ser utilizado entre strings!");
+                }
+            }else{
+                if(element1 instanceof Integer){
+                    if(element2 instanceof Integer){
+                        return !((Integer) element1).equals((Integer)  element2) ? 1 : 0;
+                    }else if(element2 instanceof Double){
+                        return 0;
+                    }
+                    throw new Exception("Não é possivel comparar inteiro com string!");
+                }else if(element1 instanceof Double){
+                    if(element2 instanceof Integer){
+                        return 0;
+                    }else if(element2 instanceof Double){
+                        return !((Double) element1).equals((Double)  element2) ? 1 : 0;
+                    }
+                    throw new Exception("Não é possivel comparar Double com string!");
+                }else{
+                    if(!(element2 instanceof String)){
+                        throw new Exception("Operador de != não pode ser utilizado entre string e diferentes tipos!");
+                    }
+                    return !((String) element1).equals((String)  element2) ? 1 : 0;
+                }
             }
+        }catch (Exception ex){
+            System.err.println(ex.getMessage());
         }
 
         return null;

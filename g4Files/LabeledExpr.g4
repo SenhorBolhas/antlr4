@@ -88,5 +88,5 @@ sumStringExpr:
 
 //COMPARISSON
 comparisson:
-    op1=(INT | FLOAT | ID) OPREL op2=(INT | FLOAT | ID) # comparissonExpr
+    op1=(INT | FLOAT | STRING | ID) OPREL op2=(INT | FLOAT | STRING | ID) # comparissonExpr
     ;
