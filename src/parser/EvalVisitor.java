@@ -219,7 +219,7 @@ public class EvalVisitor extends LabeledExprBaseVisitor<Object> {
                     }
                 }
                 if(actualValue instanceof String){
-                    value = (String) value + actualValue;
+                    value = value + (String) actualValue;
                     isStringActualValue = true;
                 }
                 isString = isStringActualValue;

@@ -6,6 +6,6 @@ println(titulo + nomedisciplina + "!")
 
 string testeinvariable;
 
-testeinvariable = "Texto 1 " + "Texto 2"
+testeinvariable = 3.3 + "Texto 2" + 33
 
 println(testeinvariable)
