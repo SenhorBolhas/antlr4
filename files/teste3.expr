@@ -1,0 +1,7 @@
+const int x = 10
+const float y = "teste"
+float y;
+y = "teste"
+
+println(x)
+println(y)

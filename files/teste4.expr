@@ -1,0 +1,5 @@
+string x, nomedisciplina;
+x = "O nome da disciplinas é "
+nomedisciplina = "Compiladores"
+
+printlnstr(x + nomedisciplina + " opa ")
