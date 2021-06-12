@@ -1,4 +1,4 @@
-// Generated from D:/Materias/Compiladores/Implementacao2Unidade/g4Files\LabeledExpr.g4 by ANTLR 4.9.1
+// Generated from D:/Materias/Compiladores/antlr4/g4Files\LabeledExpr.g4 by ANTLR 4.9.1
 package parser;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -121,6 +121,13 @@ public interface LabeledExprVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitConditionalExpr(LabeledExprParser.ConditionalExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code conditionalExec}
+	 * labeled alternative in {@link LabeledExprParser#conditionalExecExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConditionalExec(LabeledExprParser.ConditionalExecContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code whileLoopExpr}
 	 * labeled alternative in {@link LabeledExprParser#whileloop}.

@@ -1,4 +1,4 @@
-// Generated from D:/Materias/Compiladores/Implementacao2Unidade/g4Files\LabeledExpr.g4 by ANTLR 4.9.1
+// Generated from D:/Materias/Compiladores/antlr4/g4Files\LabeledExpr.g4 by ANTLR 4.9.1
 package parser;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -203,6 +203,18 @@ public class LabeledExprBaseListener implements LabeledExprListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitConditionalExpr(LabeledExprParser.ConditionalExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterConditionalExec(LabeledExprParser.ConditionalExecContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitConditionalExec(LabeledExprParser.ConditionalExecContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

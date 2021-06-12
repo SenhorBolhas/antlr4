@@ -369,19 +369,25 @@ public class EvalVisitor extends LabeledExprBaseVisitor<Object> {
         int result = (Integer) visit(ctx.comparisson());
 
         if (result == 1){
-            visit(ctx.expr(0));
+            visit(ctx.conditionalExecExpr(0));
         }else{
-            visit(ctx.expr(1));
+            visit(ctx.conditionalExecExpr(1));
         }
 
         return 0;
+    }
+
+    @Override public Integer visitConditionalExec(LabeledExprParser.ConditionalExecContext ctx) {
+        for (int i = 0; i < ctx.stat().size(); i++) {
+            visit(ctx.stat(i));
+        }
+        return 1;
     }
 
     @Override public Integer visitWhileLoopExpr(LabeledExprParser.WhileLoopExprContext ctx) {
         int result = (Integer) visit(ctx.comparisson());
 
         while (result == 1){
-            visit(ctx.expr());
             for (int i = 0; i < ctx.stat().size(); i++) {
                 visit(ctx.stat(i));
             }

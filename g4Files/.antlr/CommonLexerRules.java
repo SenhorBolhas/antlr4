@@ -1,5 +1,4 @@
-// Generated from D:/Materias/Compiladores/antlr4/g4Files\LabeledExpr.g4 by ANTLR 4.9.1
-package parser;
+// Generated from d:\Materias\Compiladores\antlr4\g4Files\CommonLexerRules.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -10,8 +9,8 @@ import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class LabeledExprLexer extends Lexer {
-	static { RuntimeMetaData.checkVersion("4.9.1", RuntimeMetaData.VERSION); }
+public class CommonLexerRules extends Lexer {
+	static { RuntimeMetaData.checkVersion("4.8", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -90,13 +89,13 @@ public class LabeledExprLexer extends Lexer {
 	}
 
 
-	public LabeledExprLexer(CharStream input) {
+	public CommonLexerRules(CharStream input) {
 		super(input);
 		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
 	@Override
-	public String getGrammarFileName() { return "LabeledExpr.g4"; }
+	public String getGrammarFileName() { return "CommonLexerRules.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }

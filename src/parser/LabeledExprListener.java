@@ -1,4 +1,4 @@
-// Generated from D:/Materias/Compiladores/Implementacao2Unidade/g4Files\LabeledExpr.g4 by ANTLR 4.9.1
+// Generated from D:/Materias/Compiladores/antlr4/g4Files\LabeledExpr.g4 by ANTLR 4.9.1
 package parser;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -197,6 +197,18 @@ public interface LabeledExprListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitConditionalExpr(LabeledExprParser.ConditionalExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code conditionalExec}
+	 * labeled alternative in {@link LabeledExprParser#conditionalExecExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterConditionalExec(LabeledExprParser.ConditionalExecContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code conditionalExec}
+	 * labeled alternative in {@link LabeledExprParser#conditionalExecExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitConditionalExec(LabeledExprParser.ConditionalExecContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code whileLoopExpr}
 	 * labeled alternative in {@link LabeledExprParser#whileloop}.

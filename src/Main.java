@@ -8,7 +8,7 @@ import java.io.InputStream;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        String inputFile = "files/teste4.expr";
+        String inputFile = "files/testeif.expr";
 
         InputStream is = System.in;
 

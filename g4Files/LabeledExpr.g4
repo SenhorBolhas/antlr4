@@ -34,12 +34,16 @@ declarationConst:
 
 // CONDITIONAL
 conditional:
-    IF APARE comparisson FPARE ABCHAV expr stat+ FECHAV (ELSE ABCHAV expr stat+ FECHAV)? # conditionalExpr
+    IF APARE comparisson FPARE ABCHAV conditionalExecExpr FECHAV (ELSE ABCHAV NEWLINE* conditionalExecExpr FECHAV)? # conditionalExpr
+    ;
+
+conditionalExecExpr:
+    stat+ # conditionalExec
     ;
 
 //WHILE
 whileloop:
-    WHILE APARE comparisson FPARE ABCHAV expr stat+ FECHAV # whileLoopExpr
+    WHILE APARE comparisson FPARE ABCHAV stat+ FECHAV # whileLoopExpr
     ;
 
 //FOR LOOP
