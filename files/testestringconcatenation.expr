@@ -1,0 +1,11 @@
+string titulo, nomedisciplina;
+titulo = "O nome desta disciplinas é "
+nomedisciplina = "Compiladores"
+
+println(titulo + nomedisciplina + "!")
+
+string testeinvariable;
+
+testeinvariable = "Texto 1 " + "Texto 2"
+
+println(testeinvariable)

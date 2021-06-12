@@ -1,5 +1,6 @@
 package parser;
 
+import java.io.ObjectInputValidation;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,23 +66,11 @@ public class EvalVisitor extends LabeledExprBaseVisitor<Object> {
         if (ctx.expr() != null){
             value = visit(ctx.expr());
         }
-        /*else{
-            value = visit(ctx.concatStringexpr());
-        }*/
 
         System.out.println(value);
 
         return 0;
     }
-
-    @Override public Integer visitPrintlnstr(LabeledExprParser.PrintlnstrContext ctx) {
-        Object value = visit(ctx.concatStringexpr());
-
-        System.out.println(value);
-
-        return 0;
-    }
-
 
     @Override
     public Integer visitInt(LabeledExprParser.IntContext ctx) {
@@ -162,8 +151,91 @@ public class EvalVisitor extends LabeledExprBaseVisitor<Object> {
         return null;
     }
 
-    @Override
-    public Object visitAddSub(LabeledExprParser.AddSubContext ctx) {
+    @Override public Object visitStringNumberSum(LabeledExprParser.StringNumberSumContext ctx) {
+        if (ctx.sumStringExpr() != null){
+             return visit(ctx.sumStringExpr());
+        }
+
+        return visit(ctx.expr());
+    }
+
+    //    op=(STRING | INT | FLOAT | ID) ADD stringNumberSumExpr+ # Add
+    @Override public Object visitAdd(LabeledExprParser.AddContext ctx) {
+        Object value = null;
+        boolean isString = ctx.op.getType() == LabeledExprParser.STRING;
+        boolean isInt = ctx.op.getType() == LabeledExprParser.INT;
+        boolean isFloat = ctx.op.getType() == LabeledExprParser.FLOAT;
+
+        try{
+            if(isString){
+                value = ctx.op.getText().replace("\"","");
+            }else if(isInt){
+                value = Integer.parseInt(ctx.op.getText());
+            }else if(isFloat){
+                value = Double.parseDouble(ctx.op.getText());
+            }else{
+                if(!memory.containsKey(ctx.op.getText())){
+                    throw new Exception("Variavel não declarada!");
+                }
+                value = memory.get(ctx.op.getText());
+
+                if(value instanceof String){
+                    isString = true;
+                }else if(value instanceof Integer){
+                    isInt = true;
+                }else{
+                    isFloat = true;
+                }
+            }
+
+            for (int i = 0; i < ctx.stringNumberSumExpr().size(); i++) {
+                // Actual value
+                Object actualValue = visit(ctx.stringNumberSumExpr(i));
+                boolean isStringActualValue = false;
+                boolean isIntActualValue = false;
+                boolean isFloatActualValue = false;
+                if(actualValue instanceof Integer){
+                    if(isInt){
+                        value = (Integer) value + (Integer) actualValue;
+                        isIntActualValue = true;
+                    }else if(isFloat){
+                        value = (Double) value + (Integer) actualValue;
+                        isFloatActualValue = true;
+                    }else{
+                        value = (String) value + actualValue;
+                        isStringActualValue = true;
+                    }
+                }
+                if(actualValue instanceof Double){
+                    if(isInt){
+                        value = (Integer) value + (Double) actualValue;
+                        isFloatActualValue = true;
+                    }else if(isFloat){
+                        value = (Double) value + (Double) actualValue;
+                        isFloatActualValue = true;
+                    }else{
+                        value = (String) value + actualValue;
+                        isStringActualValue = true;
+                    }
+                }
+                if(actualValue instanceof String){
+                    value = (String) value + actualValue;
+                    isStringActualValue = true;
+                }
+                isString = isStringActualValue;
+                isFloat = isFloatActualValue;
+                isInt = isFloatActualValue;
+            }
+
+            return value;
+        }catch (Exception ex){
+            System.err.println(ex.getMessage());
+        }
+
+        return null;
+    }
+
+    @Override public Object visitSub(LabeledExprParser.SubContext ctx) {
         Object left = visit(ctx.expr(0));
 
         Object right = visit(ctx.expr(1));
@@ -180,61 +252,20 @@ public class EvalVisitor extends LabeledExprBaseVisitor<Object> {
             System.err.println("Instância de variavel inválida!");
         }
 
-        if(ctx.op.getType() == LabeledExprParser.ADD){
-            if(castIntegerLeft != null){
-                if(castIntegerRight != null){
-                    return castIntegerLeft + castIntegerRight;
-                }
-                return castIntegerLeft + castDoubleRight;
+        if(castIntegerLeft != null){
+            if(castIntegerRight != null){
+                return castIntegerLeft - castIntegerRight;
             }
-            if(castDoubleLeft != null){
-                if(castDoubleRight != null){
-                    return castDoubleLeft + castDoubleRight;
-                }
-                return castDoubleLeft + castIntegerRight;
+            return castIntegerLeft - castDoubleRight;
+        }
+        if(castDoubleLeft != null){
+            if(castDoubleRight != null){
+                return castDoubleLeft - castDoubleRight;
             }
-        }else{
-            if(castIntegerLeft != null){
-                if(castIntegerRight != null){
-                    return castIntegerLeft - castIntegerRight;
-                }
-                return castIntegerLeft - castDoubleRight;
-            }
-            if(castDoubleLeft != null){
-                if(castDoubleRight != null){
-                    return castDoubleLeft - castDoubleRight;
-                }
-                return castDoubleLeft - castIntegerRight;
-            }
+            return castDoubleLeft - castIntegerRight;
         }
 
         return null;
-    }
-
-    @Override public String visitConcatString(LabeledExprParser.ConcatStringContext ctx) {
-        StringBuilder builder = new StringBuilder();
-
-        try{
-            // First Symbol
-            if (ctx.op1.getType() == LabeledExprParser.ID){
-                if(!memory.containsKey(ctx.op1.getText())){
-                    throw new Exception("Variável não declarada!");
-                }
-                Object resultTyped = memory.get(ctx.op1.getText());
-                builder.append(resultTyped == null ? "" : resultTyped.toString().replace("\"",""));
-            }else{
-                builder.append(ctx.op1.getText().replace("\"",""));
-            }
-
-            // Subsequent Symbols
-            for (int sumStringIndex = 0; sumStringIndex < ctx.sumStringExpr().size(); sumStringIndex++){
-                builder.append(visit(ctx.sumStringExpr(sumStringIndex)));
-            }
-        }catch (Exception ex){
-            System.err.println(ex.getMessage());
-        }
-
-        return builder.toString();
     }
 
     @Override public String visitSumString(LabeledExprParser.SumStringContext ctx) {

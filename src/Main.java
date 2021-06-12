@@ -8,7 +8,7 @@ import java.io.InputStream;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        String inputFile = "files/testeif.expr";
+        String inputFile = "files/testestringconcatenation.expr";
 
         InputStream is = System.in;
 

@@ -12,8 +12,7 @@ stat: whileloop NEWLINE # whileLoopC
     | declarationSimple NEWLINE # declarSimple
     | declarationConst NEWLINE # declarConst
     | (asignNumberExpr|asignStringExpr) NEWLINE # assing
-    | PRINT APARE (expr | stringexpr) FPARE # Println
-    | PRINTSTR APARE (concatStringexpr | stringexpr) FPARE # Printlnstr
+    | PRINT APARE (expr) FPARE # Println
     | NEWLINE # blank
     ;
 
@@ -63,23 +62,28 @@ asignStringExpr:
 // EXPRESSIONS
 expr:
     expr op=(MUL | DIV) expr # MulDiv
-    | expr op=(ADD | SUB) expr # AddSub
+    | addExpr # AddE
+    | expr SUB expr # Sub
     | INT # int
     | ID # id
     | FLOAT # float
     | APARE expr FPARE # parens
     ;
 
+addExpr:
+    op=(STRING | INT | FLOAT | ID) ADD stringNumberSumExpr+ # Add
+    ;
+
+stringNumberSumExpr:
+    (sumStringExpr | expr) # stringNumberSum
+    ;
+
 stringexpr:
     STRING # string
     ;
 
-concatStringexpr:
-    op1=(ID | STRING) sumStringExpr+ # concatString
-    ;
-
 sumStringExpr:
-    ADD op2=(ID | STRING) # sumString
+    op2=(ID | STRING) # sumString
     ;
 
 //COMPARISSON
